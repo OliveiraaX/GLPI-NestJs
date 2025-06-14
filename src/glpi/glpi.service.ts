@@ -1,14 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import axios from 'axios';
 import * as dotenv from 'dotenv';
-
 dotenv.config();
 
 @Injectable()
 export class GlpiService {
   private sessionToken: string | null = null;
-
-  private api = axios.create({
+  api = axios.create({
     baseURL: process.env.GLPI_API_URL + '/apirest.php',
     headers: { 'App-Token': process.env.GLPI_APP_TOKEN }
   });
@@ -22,6 +20,7 @@ export class GlpiService {
     }
   }
 
+  // LISTAR TICKET DE ACORDO COM O ID
   async getTicketById(id: number) {
     await this.ensureSession();
     const res = await this.api.get('/Ticket/' + id, {
@@ -30,6 +29,7 @@ export class GlpiService {
     return res.data;
   }
 
+  // LISTAR TODOS OS TICKETS
   async getAllTickets() {
     await this.ensureSession();
     const res = await this.api.get('/Ticket', {
@@ -38,6 +38,7 @@ export class GlpiService {
     return res.data;
   }
 
+  // CRIAR TICKET
   async createTicket(data: any) {
     await this.ensureSession();
     const res = await this.api.post('/Ticket', data, {
@@ -46,6 +47,7 @@ export class GlpiService {
     return res.data;
   }
 
+  // ATUALIZAR STATUS DO TICKET
   async updateTicketStatus(id: number, status: number) {
     await this.ensureSession();
     const res = await this.api.put('/Ticket/' + id, {
@@ -56,6 +58,7 @@ export class GlpiService {
     return res.data;
   }
 
+  // ATUALIZAR ATRIBUIÇAÃO DO TICKET
   async updateTicketUser(ticketId: number, userId: number) {
     await this.ensureSession();
     const res = await this.api.post('/Ticket_User', {
@@ -70,6 +73,7 @@ export class GlpiService {
     return res.data;
   }
 
+  // DELETAR TICKET 
   async deleteTicket(id: number) {
     await this.ensureSession();
     const res = await this.api.delete('/Ticket/' + id, {
@@ -78,6 +82,7 @@ export class GlpiService {
     return res.data;
   }
 
+  // LISTAR TODOS OS USUÁRIOS
   async getAllUsers() {
     await this.ensureSession();
     const res = await this.api.get('/User', {
@@ -86,6 +91,7 @@ export class GlpiService {
     return res.data;
   }
 
+  // LISTAR USUARIO POR ID
   async getUserById(id: number) {
     await this.ensureSession();
     const res = await this.api.get('/User/' + id, {
