@@ -85,7 +85,7 @@ export class GlpiService {
   // LISTAR TODOS OS USUÁRIOS
   async getAllUsers() {
     await this.ensureSession();
-    const res = await this.api.get('/User', {
+    const res = await this.api.get('/Users', {
       headers: { 'Session-Token': this.sessionToken }
     });
     return res.data;
@@ -94,7 +94,7 @@ export class GlpiService {
   // LISTAR USUARIO POR ID
   async getUserById(id: number) {
     await this.ensureSession();
-    const res = await this.api.get('/User/' + id, {
+    const res = await this.api.get('/Users/' + id, {
       headers: { 'Session-Token': this.sessionToken }
     });
     return res.data;

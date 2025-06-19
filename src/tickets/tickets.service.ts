@@ -6,15 +6,26 @@ import { CreateTicketDto } from './dto/create-ticket.dto';
 export class TicketsService {
   constructor(private readonly glpi: GlpiService) {}
 
-  getAllTickets() {
-    return this.glpi.getAllTickets();
+ async getAllTickets() {
+    try {
+      const getAllTickets = await this.glpi.getAllTickets()
+      return getAllTickets;
+    } catch (error) {
+      console.error('Erro na função getAllTickets')
+    }
   }
 
-  getTicketById(id: number) {
-    return this.glpi.getTicketById(id);
+ async getTicketById(id: number) {
+    try {
+      const getTicketById = await this.glpi.getTicketById(id)
+      return getTicketById;
+    } catch (error) {
+      console.error('Ticket' ,id, 'não encontrado')
+    }
   }
 
-  async createTicket(data: CreateTicketDto) {
+ async createTicket(data: CreateTicketDto) {
+    try {
     const payload = {
       input: {
         name: data.name,
@@ -26,27 +37,41 @@ export class TicketsService {
         urgency: data.urgency ?? 3,
         impact: data.impact ?? 3,
         priority: data.priority ?? 3,
-        ...(data.user_id && { _users_id_assign: data.user_id })
-      }
+        ...(data.user_id && { _users_id_assign: data.user_id }),
+      },
     };
 
+    const response = await this.glpi.createTicket(payload);
+    return response;
+  } catch (error) {
+    console.error('Erro na função createTicket:', error);
+  }
+}
+
+ async updateTicketStatus(id: number, status: number) {
     try {
-      return await this.glpi.createTicket(payload);
+      const updateStatus = await this.glpi.updateTicketStatus(id, status)
+      return updateStatus;
     } catch (error) {
-      console.error('Erro na funçãp createTicket');
-      throw new Error('Falha ao criar ticket no GLPI');
+      console.error('Erro na função updateTicketStatus')
+    }
+}
+
+ async updateTicketUser(id: number, userId: number) {
+    try {
+      const updateTicketUser = await this.glpi.updateTicketUser(id, userId);
+      return updateTicketUser;
+    } catch (error) {
+      console.error('Erro na função updateTicketUser ')
     }
   }
 
-  updateTicketStatus(id: number, status: number) {
-    return this.glpi.updateTicketStatus(id, status);
-  }
-
-  updateTicketUser(id: number, userId: number) {
-    return this.glpi.updateTicketUser(id, userId);
-  }
-
-  deleteTicket(id: number) {
-    return this.glpi.deleteTicket(id);
+  async deleteTicket(id: number) {
+    try {
+      const deleteTicket = await this.glpi.deleteTicket(id)
+      return  deleteTicket;
+    } catch (error) {
+      console.error('Erro na função deleteTicket')
+    } 
   }
 }

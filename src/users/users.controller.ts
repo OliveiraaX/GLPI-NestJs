@@ -8,19 +8,13 @@ export class UsersController {
 
   @Get()
   async getAll() {
-    const getUsers = await this.service.getAllUsers();
-    if (!getUsers){
-      throw new NotFoundException('Nenhum usuário foi encontrado!')
-    }
-    return getUsers();
+    const getAllUsers = await this.service.getAllUsers();
+    return getAllUsers;
   }
-
+  
   @Get(':id')
   async getUserById(@Param('id') id: number) {
     const getUser = await this.service.getUserById(id);
-    if (!getUser){
-      throw new NotFoundException('Erro ao buscar usuário!')
-    }
     return getUser;
   }
 
