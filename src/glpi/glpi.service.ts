@@ -23,8 +23,9 @@ export class GlpiService {
   // LISTAR TICKET DE ACORDO COM O ID
   async getTicketById(id: number) {
     await this.ensureSession();
-    const res = await this.api.get('/Ticket/' + id, {
-      headers: { 'Session-Token': this.sessionToken }
+    const res = await this.api.get(`/Ticket/${id}`, {
+      headers: { 'Session-Token': this.sessionToken },
+      params: { expand_dropdowns: true }
     });
     return res.data;
   }
@@ -33,7 +34,9 @@ export class GlpiService {
   async getAllTickets() {
     await this.ensureSession();
     const res = await this.api.get('/Ticket', {
-      headers: { 'Session-Token': this.sessionToken }
+      headers: { 'Session-Token': this.sessionToken },
+      params: { expand_dropdowns: true }
+
     });
     return res.data;
   }

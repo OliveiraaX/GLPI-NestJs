@@ -13,7 +13,7 @@ export class TicketsController {
   }
 
   @Get(':id')
-  async readonly(@Param('id') id: number) {
+  async readOne(@Param('id') id: number) {
     const ticket = await this.service.getTicketById(id);
     return ticket;
   }

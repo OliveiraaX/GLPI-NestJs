@@ -12,7 +12,7 @@ export class UsersController {
   }
   
   @Get(':id')
-  async getUserById(@Param('id') id: number) {
+  async readOne(@Param('id') id: number) {
     const getUser = await this.service.getUserById(id);
     return getUser;
   }

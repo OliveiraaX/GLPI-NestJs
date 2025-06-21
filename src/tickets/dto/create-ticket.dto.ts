@@ -1,4 +1,10 @@
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+  IsIn,
+} from 'class-validator';
 
 export class CreateTicketDto {
   @IsString()
@@ -11,37 +17,37 @@ export class CreateTicketDto {
 
   @IsNumber()
   @IsOptional()
-  users_id_recipient: number;
+  users_id_recipient?: number;
 
   @IsNumber()
   @IsOptional()
   entities_id?: number;
 
-  @IsNumber()
+  @IsIn([1, 2, 3, 4, 5, 6])
   @IsOptional()
   status?: number;
 
-  @IsNumber()
+  @IsIn([1, 2])
   @IsOptional()
   type?: number;
 
-  @IsNumber()
+  @IsIn([1, 2])
   @IsOptional()
   requesttypes_id?: number;
 
-  @IsNumber()
+  @IsIn([1, 2, 3])
   @IsOptional()
   urgency?: number;
 
-  @IsNumber()
+  @IsIn([1, 2, 3])
   @IsOptional()
   impact?: number;
 
-  @IsNumber()
+  @IsIn([1, 2, 3, 4, 5])
   @IsOptional()
   priority?: number;
 
   @IsNumber()
-  @IsOptional()
-  user_id?: number; // técnico atribuído (opcional)
+  @IsNotEmpty()
+  atribuir: number;
 }
