@@ -26,27 +26,30 @@ export class TicketsService {
 
  async createTicket(data: CreateTicketDto) {
     try {
-    const payload = {
-      input: {
-        name: data.name,
-        content: data.content,
-        entities_id: Number(process.env.GLPI_ENTITY_ID) || 0,
-        status: 1,
-        type: 1,
-        requesttypes_id: 1,
-        urgency: data.urgency ?? 3,
-        impact: data.impact ?? 3,
-        priority: data.priority ?? 3,
-        ...(data.user_id && { _users_id_assign: data.user_id }),
-      },
-    };
+      const payload = {
+        input: {
+          name: data.name,
+          content: data.content,
+          entities_id: Number(process.env.GLPI_ENTITY_ID) || 0,
+          status: 1, // Novo
+          users_id_recipient: data.users_id_recipient, // Solicitante
+          type: data.type ?? 1, // 1 = Incidente por padrão
+          requesttypes_id: data.requesttypes_id ?? 1, // 1 = Telefone (exemplo)
+          urgency: data.urgency ?? 3,
+          impact: data.impact ?? 3,
+          priority: data.priority ?? 3,
+          ...(data.user_id && { _users_id_assign: data.user_id }), // Atribuição opcional
+        },
+      };
 
-    const response = await this.glpi.createTicket(payload);
-    return response;
-  } catch (error) {
-    console.error('Erro na função createTicket:', error);
+      const response = await this.glpi.createTicket(payload);
+      return response;
+
+    } catch (error) {
+      console.error('Erro na função createTicket:', error.message || error);
+      throw error;
+    }
   }
-}
 
  async updateTicketStatus(id: number, status: number) {
     try {

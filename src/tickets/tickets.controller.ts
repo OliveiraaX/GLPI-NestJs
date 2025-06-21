@@ -7,13 +7,13 @@ export class TicketsController {
   constructor(private readonly service: TicketsService) {}
 
   @Get()
-  async getAll() {
+  async read() {
     const tickets = await this.service.getAllTickets();
     return tickets;
   }
 
   @Get(':id')
-  async getById(@Param('id') id: number) {
+  async readonly(@Param('id') id: number) {
     const ticket = await this.service.getTicketById(id);
     return ticket;
   }

@@ -12,7 +12,7 @@ export class UsersService {
       const allUsers = await this.glpi.getAllUsers(); 
       return allUsers;
     } catch (error) {
-      console.error('Erro na função getAllUsers');
+      console.error('Erro na função getAllUsers',error);
     }
   }
 

@@ -1,13 +1,12 @@
 import { Body, Controller, Get, NotFoundException, Param, Post } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { NotFoundError } from 'rxjs';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly service: UsersService) {}
 
   @Get()
-  async getAll() {
+  async read() {
     const getAllUsers = await this.service.getAllUsers();
     return getAllUsers;
   }
