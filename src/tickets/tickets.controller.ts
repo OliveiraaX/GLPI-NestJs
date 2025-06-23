@@ -1,6 +1,6 @@
-import { Controller, Get, Post, Patch, Delete, Param, Body, NotFoundException } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Delete, Param, Body, NotFoundException, ParseIntPipe } from '@nestjs/common';
 import { TicketsService } from './tickets.service';
-import { CreateTicketDto } from './dto/create-ticket.dto';
+import { CreateTicketDto, UpdateStatusDto } from './dto/create-ticket.dto';
 
 @Controller('tickets')
 export class TicketsController {
@@ -24,9 +24,9 @@ export class TicketsController {
     return created;
   }
 
-  @Patch(':id/status')
-  async updateStatus(@Param('id') id: number, @Body('status') status: number) {
-    return this.service.updateTicketStatus(id, status);
+  @Patch()
+  async updateStatus(@Body () body: UpdateStatusDto ) {
+    return this.service.updateTicketStatus(body.id,body.status);
   }
 
   @Patch(':id/user')
